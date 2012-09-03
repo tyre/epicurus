@@ -1,5 +1,5 @@
 (ns epicurus.settings)
 
 (def settings-map {
-  :port 7738
+  :port 7737
   })
