@@ -8,6 +8,11 @@
   [hiccup.core :only [html]]
   ))
 
-(defpage "/gen-key/event" {:keys [app-name event-name time] :as key-map}
+(defpage "/generate/event" {:keys [app-name event-name time] :as key-map}
+ (println "CREATING KEY FOR:")
+ (println (str "  app-name: " app-name))
+ (println (str "  event-name: " event-name))
+ (println (str "  time: " time))
  (response/json
   {:key (key-model/build-key :event key-map)}))
+

@@ -15,8 +15,7 @@
 ;
 
 (defn build-event-key [key-map]
- (string/join "-" [(key-map :app-name) (key-map :event-name) (str (key-map :time))])
- )
+ (string/join "-" [(key-map :app-name) (key-map :event-name) (str (key-map :time))]))
 
 (defn build-event-range [key-map]
  (loop [
@@ -29,12 +28,10 @@
    )))
 
 (defn build-unread-for-event [key-map]
- (string/join "-" [(key-map :app-name) (key-map :event-name) "KEYS" "UNREAD"])
- )
+ (string/join "-" [(key-map :app-name) (key-map :event-name) "KEYS" "UNREAD"]))
 
 (defn build-unread-events-key [key-map]
- (string/join "-" [(key-map :app-name) "EVENTS" "KEYS" "UNREAD"])
- )
+ (string/join "-" [(key-map :app-name) "EVENTS" "KEYS" "UNREAD"]))
 
 (defn build-key [type, key-map]
  (case type
