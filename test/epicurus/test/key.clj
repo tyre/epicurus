@@ -2,7 +2,13 @@
   (:use [epicurus.models.key])
   (:use [clojure.test]))
 
-(deftest build-key-for-event
+(deftest build-key-for-event-with-string
+ (is
+  (= "Facebook-pageView-4871324"
+   (build-key :event
+    {:app-name "Facebook" :event-name "pageView" :time "4871324"}))))
+
+(deftest build-key-for-event-with-int
  (is
   (= "Facebook-pageView-4871324"
    (build-key :event
@@ -20,8 +26,14 @@
    (build-key :unread-events
     {:app-name "Facebook"}))))
 
-(deftest build-keys-for-event-range
+(deftest build-keys-for-event-range-with-strings
  (is
   (= ["Facebook-pageView-4871324" "Facebook-pageView-4871325" "Facebook-pageView-4871326"]
    (build-keys :event-range
-    {:app-name "Facebook" :event-name "pageView" :start-time 4871324 :end-time 4871326}))))
+    {:app-name "Facebook" :event-name "pageView" :start-time "4871324" :end-time "4871326"}))))
+
+(deftest build-keys-for-event-range-with-numbers
+ (is
+  (= ["Facebook-pageView-4871324" "Facebook-pageView-4871325" "Facebook-pageView-4871326"]
+   (build-keys :event-range
+    {:app-name "Facebook" :event-name "pageView" :start-time "4871324" :end-time "4871326"}))))

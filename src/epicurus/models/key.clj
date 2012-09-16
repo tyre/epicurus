@@ -14,14 +14,17 @@
 ;
 ;
 
+(defn parse-int [maybe-int]
+ (Integer/parseInt (str maybe-int)))
+
 (defn build-event-key [key-map]
  (string/join "-" [(key-map :app-name) (key-map :event-name) (str (key-map :time))]))
 
 (defn build-event-range [key-map]
  (loop [
-  start-time (Integer/parseInt (key-map :start-time))
+  start-time (parse-int (key-map :start-time))
   acc []]
-  (if (> start-time (Integer/parseInt (key-map :end-time)))
+  (if (> start-time (parse-int (key-map :end-time)))
    acc
    (recur (inc start-time)
     (conj acc (build-event-key (merge {:time start-time} key-map)))))))
