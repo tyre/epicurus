@@ -19,13 +19,12 @@
 
 (defn build-event-range [key-map]
  (loop [
-  start-time (key-map :start-time)
+  start-time (Integer/parseInt (key-map :start-time))
   acc []]
-  (if (> start-time (key-map :end-time))
+  (if (> start-time (Integer/parseInt (key-map :end-time)))
    acc
    (recur (inc start-time)
-    (conj acc (build-event-key (merge {:time start-time} key-map))))
-   )))
+    (conj acc (build-event-key (merge {:time start-time} key-map)))))))
 
 (defn build-unread-for-event [key-map]
  (string/join "-" [(key-map :app-name) (key-map :event-name) "KEYS" "UNREAD"]))
@@ -37,8 +36,7 @@
  (case type
   :event (build-event-key key-map)
   :unread-for-event (build-unread-for-event key-map)
-  :unread-events (build-unread-events-key key-map)
-  ))
+  :unread-events (build-unread-events-key key-map)))
 
 (defn build-keys [type, key-map]
  (case type

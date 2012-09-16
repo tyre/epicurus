@@ -5,8 +5,7 @@
   [epicurus.models.key :as key-model])
 
  (:use [noir.core :only [defpage]]
-  [hiccup.core :only [html]]
-  ))
+  [hiccup.core :only [html]]))
 
 (defpage "/generate/event" {:keys [app-name event-name time] :as key-map}
  (println "CREATING KEY FOR:")
@@ -16,3 +15,6 @@
  (response/json
   {:key (key-model/build-key :event key-map)}))
 
+(defpage "/generate/event-range" {:keys [app-name event-name start-time end-time] :as key-map}
+   (response/json
+    {:key (key-model/build-keys :event-range key-map)}))
