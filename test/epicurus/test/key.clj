@@ -37,3 +37,23 @@
   (= ["Facebook-pageView-4871324" "Facebook-pageView-4871325" "Facebook-pageView-4871326"]
    (build-keys :event-range
     {:app-name "Facebook" :event-name "pageView" :start-time "4871324" :end-time "4871326"}))))
+
+(deftest event-range-with-time-scale-seconds
+ (is
+  (= 4
+  (count (build-keys :event-range
+   {:app-name "Walrus" :event-name "Bubbles" :start-time "481516000" :end-time "481519000" :time-range "seconds"})))))
+
+(deftest event-range-with-time-scale-seconds-and-time-step
+ (is
+  (= 3
+  (count (build-keys :event-range
+   {:app-name "Walrus" :event-name "Bubbles" :start-time "481516000" :end-time "481520000" :time-range "seconds" :time-scale "2"})))))
+
+(deftest event-range-with-time-step-as-int
+ (is
+  (= 3
+  (count (build-keys :event-range
+   {:app-name "Walrus" :event-name "Bubbles" :start-time "481516000" :end-time "481520000" :time-range "seconds" :time-scale 2})))))
+
+
