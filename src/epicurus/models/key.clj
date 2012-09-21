@@ -14,8 +14,18 @@
 ;
 ;
 
+(def time-map {
+  :milliseconds 1
+  :seconds      1000
+  :minutes      60000
+  :hours        3600000
+  :days         86400000
+  })
+
 (defn parse-int [maybe-int]
- (Integer/parseInt (str maybe-int)))
+ (if (nil? maybe-int)
+  nil
+ (Integer/parseInt (str maybe-int))))
 
 (defn build-event-key [key-map]
  (string/join "-" [(key-map :app-name) (key-map :event-name) (str (key-map :time))]))
@@ -26,7 +36,7 @@
   acc []]
   (if (> start-time (parse-int (key-map :end-time)))
    acc
-   (recur (inc start-time)
+   (recur (+ start-time (* (or (parse-int (key-map :time-scale)) 1) (get time-map (keyword (key-map :time-range)) 1)))
     (conj acc (build-event-key (merge {:time start-time} key-map)))))))
 
 (defn build-unread-for-event [key-map]

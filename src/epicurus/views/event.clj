@@ -15,6 +15,6 @@
  (response/json
   {:key (key-model/build-key :unread-for-event key-map)}))
 
-(defpage "/generate/event-range" {:keys [app-name event-name start-time end-time] :as key-map}
+(defpage "/generate/event-range" {:keys [app-name event-name start-time end-time ] :as key-map}
    (response/json
     {:key (key-model/build-keys :event-range key-map)}))
