@@ -1,11 +1,11 @@
-(ns epicurus.models.key
+(ns epicurus.models.redis-model
  (:require [clojure.string :as string]))
 
         ;;;;; KEYS ;;;;;
 ;
 ; get event
 ;   :event             =>   incr/read count for event
-;   :event-range       =>   event keys from :start-time to :end-time (inclusive)
+;   :event-range       =>   event keys from :start-time to :end-time (inclusive). Optionally, include a :time-unit to specify incrementing by milliseconds, seconds, minutes, hours, or days and and/or a :time-scale for how many of said unit to increment by. Defaults to milliseconds and 1, respectively.
 ;   :unread-for-event  =>   set of all keys for an event which haven't yet been pulled from Redis
 ;   :unread-events     =>   set of keys which hold sets of particular events keys
 ;
@@ -36,7 +36,7 @@
   acc []]
   (if (> start-time (parse-int (key-map :end-time)))
    acc
-   (recur (+ start-time (* (or (parse-int (key-map :time-scale)) 1) (get time-map (keyword (key-map :time-range)) 1)))
+   (recur (+ start-time (* (or (parse-int (key-map :time-scale)) 1) (get time-map (keyword (key-map :time-unit)) 1)))
     (conj acc (build-event-key (merge {:time start-time} key-map)))))))
 
 (defn build-unread-for-event [key-map]

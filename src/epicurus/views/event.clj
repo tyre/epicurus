@@ -1,20 +1,24 @@
 (ns epicurus.views.event
 
  (:require
-  [noir.response :as response]
-  [epicurus.models.key :as key-model])
+  [noir.response :as response])
 
  (:use [noir.core :only [defpage]]
   [hiccup.core :only [html]]))
 
-(defpage "/generate/event" {:keys [app-name event-name time] :as key-map}
- (response/json
-  {:key (key-model/build-key :event key-map)}))
+(defn build-key-fn [app-name]
+   (let [the-ns (symbol (str "epicurus.models." app-name "-model"))]
+      (require the-ns)
+      (ns-resolve the-ns 'build-key)))
 
-(defpage "/generate/event/unread" {:keys [app-name event-name] :as key-map}
+(defpage "/:backend/generate/event" {:keys [backend app-name event-name time] :as key-map}
  (response/json
-  {:key (key-model/build-key :unread-for-event key-map)}))
+  {:key ((build-key-fn backend) :event key-map)}))
 
-(defpage "/generate/event-range" {:keys [app-name event-name start-time end-time ] :as key-map}
+(defpage "/:backend/generate/event/unread" {:keys [backend app-name event-name] :as key-map}
+ (response/json
+  {:key ((build-key-fn backend) :unread-for-event key-map)}))
+
+(defpage "/:backend/generate/event-range" {:keys [backend app-name event-name start-time end-time time-unit time-scale] :as key-map}
    (response/json
-    {:key (key-model/build-keys :event-range key-map)}))
+    {:key ((build-key-fn backend) :event-range key-map)}))
